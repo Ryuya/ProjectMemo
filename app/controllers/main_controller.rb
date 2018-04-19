@@ -141,6 +141,20 @@ class MainController < ApplicationController
     @user = User.find(current_user.id)
   end
 
+  def project_edit
+    @project = Project.find(params[:id])
+    @user = User.find(current_user.id)
+  end
+
+  def project_update
+    @project = Project.find(params[:id])
+    if @project.update(project_params)
+      redirect_to root_path and return
+    else
+      redirect_to project_path(params[:project_id]) and return
+    end
+  end
+
   def question_update
     @question = Question.find(params[:id])
     if @question.update(question_params)

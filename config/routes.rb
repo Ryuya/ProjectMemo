@@ -20,10 +20,12 @@ Rails.application.routes.draw do
 
 
   get 'main/project_edit/:id', to: 'main#project_edit', as: :project_edit
-
+  post 'main/project_edit/:id', to: 'main#project_update'
 
   get 'main/question_edit/:id', to: 'main#question_edit', as: :question_edit
   post 'main/question_edit/:id', to: 'main#question_update'
+
+
 
   get 'main/candidateurl/:id', to:  'main#candidateurl_show', as: :candidateurl
   get 'main/candidateurl_edit/:id',to: 'main#candidateurl_edit',as: :candidateurl_edit
