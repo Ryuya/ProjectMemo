@@ -13,11 +13,13 @@
       <div class="list left number_huyo">
         <%#= hidden_field_tag :question_id, @question.id %>
         <%#= hidden_field_tag :question_resolution, @question.resolution %>
-        <%= form_for(@question,:url=>{:controller => "main", :action => "resolution_update"}, :id => "form-left") do |f| %>
-          <%= hidden_field_tag :resolution_order,""%>
-          <%= hidden_field_tag :question_id, @question.id %>
-          <input class="order" name="order" type="hidden" value="" />
-          <input class="btn-primary submit_div super_font2" type="submit" value="解決" onclick="resolutionbutton();" />
+        <% if current_user != nil%>
+          <%= form_for(@question,:url=>{:controller => "main", :action => "resolution_update"}, :id => "form-left") do |f| %>
+            <%= hidden_field_tag :resolution_order,""%>
+            <%= hidden_field_tag :question_id, @question.id %>
+            <input class="order" name="order" type="hidden" value="" />
+            <input class="btn-primary submit_div super_font2" type="submit" value="解決" onclick="resolutionbutton();" />
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -46,13 +48,15 @@
                   <div class="memo">
                     <a href="#" class="glyphicon glyphicon-pencil" alt="<%= candidateurl.memo %>"onclick="showFog(); return false;"></a>
                   </div>
-                  <% if current_user.id == candidateurl.user_id %>
-                    <div class="sakujo">
-                      <%= link_to "削除", candidateurl ,method: :delete ,data: { confirm: "You sure?" } %>
-                    </div>
-                    <div class="hensyu">
-                      <%= link_to "編集", candidateurl_edit_path(candidateurl) %>
-                    </div>
+                  <% if current_user != nil%>
+                    <% if current_user.id == candidateurl.user_id %>
+                      <div class="sakujo">
+                        <%= link_to "削除", candidateurl ,method: :delete ,data: { confirm: "You sure?" } %>
+                      </div>
+                      <div class="hensyu">
+                        <%= link_to "編集", candidateurl_edit_path(candidateurl) %>
+                      </div>
+                    <% end %>
                   <% end %>
                 </div>
               </li>
@@ -65,6 +69,7 @@
           <p id="fog_memo_text"></p>
         </div>
       </div>
+      <% if current_user != nil%>
       <div class="submit_div">
         <%= form_for(@candidateurl,:url=>{:controller => "main", :action => "create_candidateurl"}) do |f| %>
           <%= f.text_area :url , cols: "30", rows: "1",:placeholder => "URL"%>
@@ -73,6 +78,9 @@
           <input class="btn-primary super_font1" type="submit" value="Add" />
         <% end %>
       </div>
+      <% else %>
+       <h1><%= link_to "ログイン",new_user_session_path%></h1>
+      <% end %>
 
 
     </div>
