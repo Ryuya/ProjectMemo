@@ -97,7 +97,7 @@
       <% %>
 
       <li class="category-id-<%= question.question_category_id %> question <%= (question.resolution == false ? "open--extend" : "close--extend") %>">
-         <%= link_to question.title, question_path(question) ,controller: "main", action: "question_show", project_id: question.project_id %>
+         <%= link_to question.title, question_path(question)  %>
          <%= "回答数:" + answer_count.to_s+ "," +
          (question.resolution == false ? "未解決" : "解決済み")+
          "," + category_name.to_s %>

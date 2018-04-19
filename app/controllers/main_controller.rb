@@ -115,15 +115,16 @@ class MainController < ApplicationController
 
   def question_show
     @candidateurl = Candidateurl.new
-    @project = Project.find(params[:id])
+    #@project = Project.find(params[:id])
 
     #クエリストリング
     #params
     #binding.pry
-    session[:last_question_id] = params[:id]
-    @question = @project.questions.find(session[:last_question_id])
-    @answerurls = @project.questions.find(session[:last_question_id]).answerurls
-    @candidateurls = @question.candidateurls.all
+    #binding.pry
+    #session[:last_question_id] = params[:project_id]
+    @question = Question.find(params[:id])
+    @answerurls = Question.find(params[:id]).answerurls.all
+    @candidateurls = Question.find(params[:id]).candidateurls.all
     #viewからは呼べない
     #a = Candidateurl.new
 

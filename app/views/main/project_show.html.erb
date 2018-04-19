@@ -13,6 +13,8 @@
 <% category_name = "不明"%>
 <div style="border:solid 2px black;">
   <div class="">
+    <% if current_user != nil%>
+
     <div style="border:solid 2px black;">
       <p>何か質問してください</p>
       <%= form_for(@question,:url=>{:controller => "main", :action => "create_question"}) do |f| %>
@@ -28,6 +30,7 @@
         <input type="submit" value="送信" />
       <% end %>
     </div>
+  <% end %>
   <ul>
     <h5><%= @project.title%> の　質問一覧(Questionモデルをeachで回す、プルダウンメニューのカテゴリと一致してる質問しか表示しない)</h5>
     <% @project.questions.each do |question|%>
