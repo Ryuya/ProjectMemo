@@ -1,4 +1,4 @@
-<h1>あるプロジェクトを押下した時のページ</h1>
+<h1><%= @project.title %>のページ</h1>
 <% if current_user != nil%>
 <%= "名前 "+current_user.username %>
 <%= link_to "ログアウト",destroy_user_session_path%>
