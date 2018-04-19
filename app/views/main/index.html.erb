@@ -1,7 +1,7 @@
-<h1>質問ページ</h1>
+<h1>TOPページ</h1>
 <% if current_user != nil%>
 <%= "名前 "+current_user.username %>
-<%= link_to "ログアウト",destroy_user_session_path%>
+<%= link_to "ログアウト",destroy_user_session_path, :method => :delete%>
 <% else %>
 <%= "ログインしてください" %>
 <%= link_to "ログイン",new_user_session_path%>
@@ -11,7 +11,7 @@
   <div style="border:solid 2px black;">
     <div class="">
     <ul>
-      <h5>あなたのプロジェクト一覧(Questionモデルをeachで回す、プルダウンメニューのカテゴリと一致してる質問しか表示しない)</h5>
+      <h5>あなたのプロジェクト一覧</h5>
       <div style="border:solid 2px black;">
         <p>プロジェクトを作成する</p>
         <%= form_for(@project,:url=>{:controller => "main", :action => "create_project"}) do |f| %>
@@ -46,7 +46,7 @@
 <div style="border:solid 2px black;">
   <div class="">
   <ul>
-    <h5>みんなのプロジェクト一覧(Questionモデルをeachで回す、プルダウンメニューのカテゴリと一致してる質問しか表示しない)</h5>
+    <h5>みんなのプロジェクト一覧</h5>
     <% @projects.each do |project|%>
       <% @project_categories.each do |category| %>
         <% if project.project_category_id == category.id %>
@@ -72,7 +72,7 @@
 <div style="border:solid 2px black;">
   <div class="">
   <ul>
-    <h5>質問一覧(Questionモデルをeachで回す、プルダウンメニューのカテゴリと一致してる質問しか表示しない)</h5>
+    <h5>質問一覧</h5>
     <% @questions.each do |question|%>
       <% answer_count = 0%>
 
