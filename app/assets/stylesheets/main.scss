@@ -1,0 +1,24 @@
+// Place all the styles related to the main controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+html{
+  display:block;
+  margin:0 auto;
+}
+body{
+  display:block;
+
+  margin:0 auto;
+}
+.flex{
+  margin: 10 auto;
+}
+.candidateurl{
+  display:block;
+  border:solid 1px black;
+  margin-top:20px;
+  margin-left:20px;
+  margin-right:20px;
+  overflow: auto;
+  height: 600px;
+}

@@ -1,0 +1,116 @@
+<h1><%= @question.title %>の詳細ページ
+</br>
+  <!-- user_idがまだない問題たちへの対処 -->
+  <%= "質問者["+User.find(@question.user_id).username+"]"%>
+</h1>
+<div class="panel panel-default">
+  <%= @question.description %>
+  <%#= @qeustion.candidateurl.url %>
+</div>
+<div class="flex">
+
+  <div class="close_answer panel panel-default">
+    <div class="middle">
+        <div class="candidateurl number_huyo panel panel-default" id="items1">
+        <h1>質問者に選ばれた回答</h1>
+      <% @answerurls.each do | answerurl |%>
+        <li class="panel" id="cadidate-li-<%= %>">
+        <div class="candidateitem" id="candidateitem<%= %> panel-primary ">
+          <div class="numbering">
+            <div class="sectionblock"></div>
+          </div>
+          <div class="samune">
+            <a href="<%= answerurl.url %>">
+            <img alt="<%= answerurl.memo %>" width="70%"
+            height="auto" border="0"
+            src="https://blinky.nemui.org/shot?<%=answerurl.url%>"></a>
+          </div>
+          <div class="url">
+            <a href="<%= answerurl.url%>" > <%= answerurl.title %> </a>
+          </div>
+          <div class="memo">
+            <a href="#" class="glyphicon glyphicon-pencil" alt="<%= answerurl.memo %>"onclick="showFog(); return false;"></a>
+          </div>
+        </div>
+        </li>
+      <% end %>
+      </div>
+      <div id="fog">
+        <div id="fog_memo">
+          <a href="#" onclick="hideFog();return false;">X</a>
+          <span class="box-title">POINT</span>
+          <p id="fog_memo_text"></p>
+        </div>
+      </div>
+      <div class="submit_div">
+        <%= form_for(@candidateurl,:url=>{:controller => "main", :action => "create_candidateurl"}) do |f| %>
+          <%= f.text_area :url , cols: "30", rows: "1",:placeholder => "URL"%>
+          <%= f.text_area :memo , maxlength: "10000",cols: "30", rows: "5",:placeholder => "メモ"%>
+          <%= hidden_field_tag :question_id, @question.id %>
+          <input class="btn-primary super_font1" type="submit" value="Add" />
+        <% end %>
+      </div>
+
+
+    </div>
+
+  </div>
+
+  <script>
+      var memo;
+      $(function(){
+        $('.memo a').click(function(){
+            var val = $(this).attr("alt")
+            memo = val;
+            $('#fog').show()
+            $('#fog_memo').show()
+            $('#fog_memo_text').show()
+            document.getElementById("fog_memo_text").innerHTML=memo;
+        });
+      });
+
+      $(function(){
+        $('#fog').click(function(){
+            $('#fog').hide()
+            $('#fog_memo').hide()
+            $('#fog_memo_text').hide()
+        });
+      });
+
+      var hideFog = function () {
+        $('#fog').hide()
+        $('#fog_memo').hide()
+        $('#fog_memo_text').hide()
+      }
+
+      var showFog = function () {
+        var val = $(this).attr("alt")
+        memo = val;
+        document.getElementById("fog_memo_text").innerHTML=memo;
+        $('#fog').show()
+        $('#fog_memo').show()
+        $('#fog_memo_text').show()
+      }
+
+        $('#items1').sortable({
+          connectWith: "#items2", placeholder: ""
+        });
+       $('#items2').sortable();
+
+       $('#items2').sortable({appendTo:"this", connectWith: "#items1", placeholder: ""});
+       $('#items1').sortable();
+
+       $("#items1").sortable({
+         helper: "clone",
+         snap: true,
+
+         remove: function (event, ui) {
+              var a = ui.item.attr("id");
+              console.log(ui.item);
+              ui.item.clone().appendTo('#items2');
+              $('.memo a').on('click', showFog);
+              $(this).sortable("cancel");
+          }
+       });
+  </script>
+</div>

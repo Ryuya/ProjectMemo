@@ -1,0 +1,245 @@
+<h1><%= @question.title %>の詳細ページ
+</br>
+  <!-- user_idがまだない問題たちへの対処 -->
+  <%= "質問者["+User.find(@question.user_id).username+"]"%>
+</h1>
+<div class="panel panel-default">
+  <%= @question.description %>
+  <%#= @qeustion.candidateurl.url %>
+</div>
+<div class="flex">
+
+    <div class="box1 number_huyo panel panel-default" id="items2">
+      <div class="list left number_huyo">
+        <%#= hidden_field_tag :question_id, @question.id %>
+        <%#= hidden_field_tag :question_resolution, @question.resolution %>
+        <%= form_for(@question,:url=>{:controller => "main", :action => "resolution_update"}, :id => "form-left") do |f| %>
+          <%= hidden_field_tag :resolution_order,""%>
+          <%= hidden_field_tag :question_id, @question.id %>
+          <input class="order" name="order" type="hidden" value="" />
+          <input class="btn-primary submit_div super_font2" type="submit" value="解決" onclick="resolutionbutton();" />
+        <% end %>
+      </div>
+    </div>
+
+
+  <div class="box2 panel panel-default">
+    <div class="middle">
+        <div class="candidateurl number_huyo panel panel-default" id="items1">
+            <% @question.candidateurls.each_with_index do |candidateurl,candidateitem_id|%>
+              <li class="panel" id="cadidate-li-<%= candidateitem_id %>">
+                <div class="candidateitem" id="candidateitem<%= candidateitem_id %> panel-primary ">
+                  <div class="numbering">
+                    <div class="sectionblock"></div>
+                  </div>
+                  <div class="samune">
+                    <a href="<%= candidateurl.url %>">
+                    <img alt="<%= candidateurl.memo %>" width="70%"
+                    height="auto" border="0"
+                    src="https://blinky.nemui.org/shot?<%= candidateurl.url %>"></a>
+                  </div>
+                  <div class="url" id="url">
+                    <a href="<%= candidateurl.url%>" >
+                      <%= candidateurl.title %>
+                    </a>
+                  </div>
+                  <div class="memo">
+                    <a href="#" class="glyphicon glyphicon-pencil" alt="<%= candidateurl.memo %>"onclick="showFog(); return false;"></a>
+                  </div>
+                  <% if current_user.id == candidateurl.user_id %>
+                    <div class="sakujo">
+                      <%= link_to "削除", candidateurl ,method: :delete ,data: { confirm: "You sure?" } %>
+                    </div>
+                    <div class="hensyu">
+                      <%= link_to "編集", candidateurl_edit_path(candidateurl) %>
+                    </div>
+                  <% end %>
+                </div>
+              </li>
+            <% end %>
+      </div>
+      <div id="fog">
+        <div id="fog_memo">
+          <a href="#" onclick="hideFog();return false;">X</a>
+          <span class="box-title">POINT</span>
+          <p id="fog_memo_text"></p>
+        </div>
+      </div>
+      <div class="submit_div">
+        <%= form_for(@candidateurl,:url=>{:controller => "main", :action => "create_candidateurl"}) do |f| %>
+          <%= f.text_area :url , cols: "30", rows: "1",:placeholder => "URL"%>
+          <%= f.text_area :memo , maxlength: "10000",cols: "30", rows: "5",:placeholder => "メモ"%>
+          <%= hidden_field_tag :question_id, @question.id %>
+          <input class="btn-primary super_font1" type="submit" value="Add" />
+        <% end %>
+      </div>
+
+
+    </div>
+
+  </div>
+  <div class="box3 panel panel-default">
+    <div class="right">
+      <h2>チャットログ</h2>
+    </div>
+  </div>
+  <script>
+
+    var memo;
+    var addable = true;
+    var answers_json = [
+    ];
+
+    window.onload = function() {
+
+    }
+
+    // function getTitle(url,callback){
+    //     var xhr=new XMLHttpRequest();
+    //     xhr.onload = function() {
+    //         var title=this.responseXML.title||"no title"
+    //         callback(url,title)
+    //     }
+    //     xhr.open("GET", url ,true);
+    //     xhr.responseType="document";
+    //     xhr.send();
+    // }
+    //
+    // $(".url a").each(function(i, elem) {
+    //   var str;
+    //   var url = $(elem).attr("href");
+    //   getTitle(url, function(url, title) {
+    //       $(elem).text(title);
+    //   });
+    // });
+
+  //  $(".url a").text(getTitle($(".url a").attr("href")));
+
+    // var checkUrl = $(".url a").attr("href");
+    //
+
+    //
+    // getTitle(checkUrl, function(url, title) {
+    //     console.log(title);
+    // });
+
+    $(function(){
+      $('.memo a').click(function(){
+          var val = $(this).attr("alt")
+          memo = val;
+          $('#fog').show()
+          $('#fog_memo').show()
+          $('#fog_memo_text').show()
+          document.getElementById("fog_memo_text").innerHTML=memo;
+      });
+    });
+
+    var appendInput = function(name,url,urlormemo){
+      var str = name;
+
+      //-がいらない場合
+      var array = str.match(/[0-9]+\.?[0-9]*/g);
+      for(var i = 0; i < array.length; i++) {
+        str = parseFloat(array[i]);
+      }
+
+      str = urlormemo+str;
+
+      var id = str;
+      //            <input type="text" name="item[][name]" value="yamada" />
+      html_input = '<input type="hidden" class="order" name="order[][url]"  value="" /> <input type="hidden" class="order" name="order[][url]"  value="" />';
+      $('.edit_question').prepend(html_input);
+    }
+
+    $(function(){
+      $('#fog').click(function(){
+          $('#fog').hide()
+          $('#fog_memo').hide()
+          $('#fog_memo_text').hide()
+      });
+    });
+
+    var hideFog = function () {
+      $('#fog').hide()
+      $('#fog_memo').hide()
+      $('#fog_memo_text').hide()
+    }
+
+    //Append text to input element
+    function jQ_append(class_of_input,answers){
+        var input_id = '.'+class_of_input;
+        var selector = $(input_id);
+        selector.val(JSON.stringify(answers_json));
+    }
+
+    function answer_append(id,title,url,memo){
+      answers_json.push({
+        id: id,
+        title,title,
+        url: url,
+        memo: memo
+      });
+    }
+    answers = $("#items1 li");
+    function resolutionbutton(){
+      answers = $("#items2 li");
+      if(answers !== [])
+      answers.each(function(i) {
+        answer_append(i,answers[i].childNodes[1].childNodes[5].childNodes[1].childNodes[0].data,answers[i].childNodes[1].childNodes[5].childNodes[1].getAttribute("href"),answers[i].childNodes[1].childNodes[7].childNodes[1].getAttribute("alt"))
+      });
+      jQ_append("order",answers_json);
+    }
+
+
+    var showFog = function () {
+      var val = $(this).attr("alt")
+      memo = val;
+      document.getElementById("fog_memo_text").innerHTML=memo;
+      $('#fog').show()
+      $('#fog_memo').show()
+      $('#fog_memo_text').show()
+    }
+    ui_item = "";
+    $('#items1').sortable({
+    connectWith: "#items2", placeholder: ""
+    });
+    $('#items2').sortable();
+    $("#items1").sortable({
+      helper: "clone",
+      snap: true,
+      //関連付けられている Sortable 要素の Sortableアイテムのドラッグが開始したときに呼び出されます。
+      activate: function(event,ui){
+        addable = true;
+      },
+      //並べ替えアイテムが Sortable 要素に入ったときに呼び出されます。
+      over: function(event,ui){
+        var url = $('#items2').find('.panel').find('.candidateitem').find('.url a').attr('href');
+        $("#items2 .panel .candidateitem .url a").each(function(i, elem) {
+          //同じURLが存在していたら追加しない処理
+            if(elem.innerText == ui.item.find("a").attr("href")){
+              //HITしたらaddable=false
+              addable = false;
+            } else {
+            }
+        });
+      },
+      //他の Sortable 要素に Sortable アイテムを移動し、自分のSortable 要素から削除されたときに呼び出されます。
+      remove: function (event, ui) {
+        ui_item = ui.item;
+        if(addable){
+          var url = ui.item.find("a").attr("href");
+          var memo = ui.item.find("a img").attr("alt");
+          ui.item.clone().appendTo('#items2');
+        } else {
+
+        }
+        //動的に生成されたaにもclickListnerを付与する
+        $('.memo a').on('click', showFog);
+        $(this).sortable("cancel");
+      },
+      stop: function(event,ui){
+
+      }
+   });
+  </script>
+</div>

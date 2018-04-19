@@ -1,0 +1,121 @@
+<h1>あるプロジェクトを押下した時のページ</h1>
+<% if current_user != nil%>
+<%= "名前 "+current_user.username %>
+<%= link_to "ログアウト",destroy_user_session_path%>
+<% else %>
+<%= "ログインしてください" %>
+<%= link_to "ログイン",new_user_session_path%>
+<% end %>
+
+<%# if current_user.id == project.user_id %>
+
+<%# end %>
+<% category_name = "不明"%>
+<div style="border:solid 2px black;">
+  <div class="">
+    <div style="border:solid 2px black;">
+      <p>何か質問してください</p>
+      <%= form_for(@question,:url=>{:controller => "main", :action => "create_question"}) do |f| %>
+        <%= f.collection_select :question_category_id, QuestionCategory.all, :id, :category_name ,:prompt => "全ての質問"%>
+        <%#= f.collection_select :tag_id, Tag.all, :id, :tagname ,:prompt => "全ての質問"%>
+        <%= f.text_area :title , cols: "30", rows: "1",:placeholder => "Title",:class =>"form-control" %>
+        <%= f.text_area :description , cols: "30", rows: "10",:placeholder => "内容",:class =>"form-control"%>
+        <input type="submit" value="送信" />
+      <% end %>
+      <!-- Category 生成-->
+      <%= form_for(@question_category,:url=>{:controller => "main", :action => "create_question_category"}) do |f| %>
+        <%= f.text_area :category_name , cols: "30", rows: "1",:placeholder => "追加するカテゴリ名" %>
+        <input type="submit" value="送信" />
+      <% end %>
+    </div>
+  <ul>
+    <h5><%= @project.title%> の　質問一覧(Questionモデルをeachで回す、プルダウンメニューのカテゴリと一致してる質問しか表示しない)</h5>
+    <% @project.questions.each do |question|%>
+      <% answer_count = 0%>
+
+        <!-- 回答数カウント -->
+      <% @candidateurls.each do |candidateurl|%>
+        <% if question.id == candidateurl.question_id%>
+              <% answer_count += 1 %>
+        <% end %>
+      <% end %>
+
+      <% if @question_categories != nil%>
+        <% @question_categories.each do |category| %>
+          <% if question.question_category_id == category.id %>
+            <% category_name = category.category_name %>
+          <% else %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <li class="category-id-<%= question.question_category_id %>
+         question
+         <%= (question.resolution == false ? "open--extend" : "close--extend") %>">
+         <%= link_to question.title, question_path(question) %>
+         <%= "回答数:" + answer_count.to_s+ "," +
+         (question.resolution == false ? "未解決" : "解決済み")+
+         "," + category_name.to_s %>
+        <% if current_user != nil%>
+          <% if current_user.id == question.user_id %>
+          <%= link_to "編集", question_edit_path(question) %>
+          <%= link_to "削除", question ,method: :delete ,data: { confirm: "You sure?" } %>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  </div>
+</div>
+
+<script>
+
+$(document).ready(function(){
+  //初期化
+  var selected_id;
+  selected_id = $('[name="question[question_category_id]"]').val();
+  if(selected_id === ''){
+    $('.form-control').attr('disabled',true);
+  }
+});
+
+$('select').change(function() {
+    //選択したvalue値を変数に格納
+    $('.question').hide();
+    selected_id = $('[name="question[question_category_id]"]').val();
+    console.log(selected_id);
+    if(selected_id === '' ){
+      $('.question').show();
+      $('.form-control').attr('disabled',true);
+    } else {
+      $('.category-id-'+selected_id).show();
+      $('.form-control').attr('disabled',false);
+    }
+  });
+</script>
+
+
+<script>
+
+$(document).ready(function(){
+  //初期化
+  var selected_id;
+  selected_id = $('[name="project[project_category_id]"]').val();
+  if(selected_id === ''){
+    $('.form-control').attr('disabled',true);
+  }
+});
+
+$('select').change(function() {
+    //選択したvalue値を変数に格納
+    $('.project').hide();
+    selected_id = $('[name="project[project_category_id]"]').val();
+    if(selected_id === ''){
+      $('.project').show();
+      $('.question').show();
+      $('.form-control').attr('disabled',true);
+    } else {
+      $('.category-id-'+selected_id).show();
+      $('.form-control').attr('disabled',false);
+    }
+  });
+</script>

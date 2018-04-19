@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: one
+  user: one
+  question_category: one
+  title: MyString
+  description: MyString
+  resolution: false
+
+two:
+  project: two
+  user: two
+  question_category: two
+  title: MyString
+  description: MyString
+  resolution: false
