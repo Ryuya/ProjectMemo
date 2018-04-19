@@ -115,7 +115,6 @@ class MainController < ApplicationController
 
   def question_show
     @candidateurl = Candidateurl.new
-    #session[:last_project_id] =
     @project = Project.find(params[:id])
 
     #クエリストリング
