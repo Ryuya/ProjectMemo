@@ -81,7 +81,7 @@
           <%= " "+User.find(project.user_id).username%>
         </li>
 
-        <% @questions.each do |question|%>
+        <% project.questions.each do |question|%>
           <% answer_count = 0%>
             <!-- 回答数カウント -->
           <% @candidateurls.each do |candidateurl|%>
