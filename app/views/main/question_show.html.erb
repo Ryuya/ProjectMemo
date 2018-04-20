@@ -9,7 +9,7 @@
 </div>
 <div class="flex">
 
-    <div class="box1 number_huyo panel panel-default" id="items2">
+    <div class="box1 col-xs-12 col-sm-6 number_huyo panel panel-default" id="items2">
       <div class="list left number_huyo">
         <%#= hidden_field_tag :question_id, @question.id %>
         <%#= hidden_field_tag :question_resolution, @question.resolution %>
@@ -18,14 +18,14 @@
             <%= hidden_field_tag :resolution_order,""%>
             <%= hidden_field_tag :question_id, @question.id %>
             <input class="order" name="order" type="hidden" value="" />
-            <input class="btn-primary submit_div super_font2" type="submit" value="解決" onclick="resolutionbutton();" />
+            <input class="btn btn-primary btn-lg btn-block super_font1  submit_div super_font2" type="submit" value="解決" onclick="resolutionbutton();" />
           <% end %>
         <% end %>
       </div>
     </div>
 
 
-  <div class="box2 panel panel-default">
+  <div class="box2 col-xs-12 col-sm-6 panel panel-default">
     <div class="middle">
         <div class="candidateurl number_huyo panel panel-default" id="items1">
             <% @question.candidateurls.each_with_index do |candidateurl,candidateitem_id|%>
@@ -71,24 +71,24 @@
       </div>
       <% if current_user != nil%>
       <div class="submit_div">
-        <%= form_for(@candidateurl,:url=>{:controller => "main", :action => "create_candidateurl"}) do |f| %>
-          <%= f.text_area :url , cols: "30", rows: "1",:placeholder => "URL"%>
-          <%= f.text_area :memo , maxlength: "10000",cols: "30", rows: "5",:placeholder => "メモ"%>
-          <%= hidden_field_tag :question_id, @question.id %>
-          <input class="btn-primary super_font1" type="submit" value="Add" />
+        <%= form_for(@candidateurl,:url=>{:controller => "main", :action => "create_candidateurl"}, html: {class: 'form-horizontal'}) do |f| %>
+        <div class="form-row">
+            <div class="col-sm-12">
+              <%= f.text_area :url , cols: "30", rows: "1",:placeholder => "URL" ,:class => "form-control"%>
+            </div>
+            <div class="col-sm-12">
+              <%= f.text_area :memo , maxlength: "10000",cols: "30", rows: "5",:placeholder => "メモ" ,:class => "form-control"%>
+            </div>
+            <div class="col-sm-12">
+              <%= hidden_field_tag :question_id, @question.id %>
+              <input class="btn btn-primary btn-lg btn-block super_font1" type="submit" value="Add" />
+            </div>
+        </div>
         <% end %>
       </div>
       <% else %>
        <h1><%= link_to "ログイン",new_user_session_path%></h1>
       <% end %>
-
-
-    </div>
-
-  </div>
-  <div class="box3 panel panel-default">
-    <div class="right">
-      <h2>チャットログ</h2>
     </div>
   </div>
   <script>
