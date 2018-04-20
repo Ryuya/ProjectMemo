@@ -23,19 +23,18 @@ class MainController < ApplicationController
   end
 
   def create_question
-    @project = Project.find(session[:last_project_id]);
+    @project = Project.find(params[:project_id]);
     @question = @project.questions.new(question_params)
     @question.user_id = current_user.id
     @question.resolution = false;
     if @question.save
-      redirect_to root_path and return
+      redirect_to project_path(params[:project_id]) and return
     else
-      redirect_to root_path and return
+      redirect_to project_path(params[:project_id]) and return
     end
   end
 
   def create_candidateurl
-    test1 = Candidateurl.includes(:question => :project)
     @question = Question.find(params[:question_id])
     #@answer_detail = @question.answer_details.new(answer_detail_params)
     @candidateurl = @question.candidateurls.new(candidateurl_params)
@@ -60,13 +59,13 @@ class MainController < ApplicationController
   end
 
   def resolution_update
-    @project = Project.find(session[:last_project_id])
-    @question = @project.questions.find(session[:last_question_id])
-
+    @project_id = Question.find(params[:question_id]).project_id
+    @project = Project.find(@project_id)
+    @question = @project.questions.find(params[:question_id])
     resolution_order_str = params[:order]
     results = JSON.parse(resolution_order_str)
     results.each_with_index do |result,index|
-      @answerurl = @project.questions.find(session[:last_question_id]).answerurls.new
+      @answerurl = @project.questions.find(params[:question_id]).answerurls.new
       @answerurl.question_id = @question.id
       @answerurl.user_id = @question.user_id
 
@@ -96,13 +95,10 @@ class MainController < ApplicationController
 
 #あるプロジェクトを押下した
   def project_show
-    session[:last_project_id] = params[:id]
     @question_category = QuestionCategory.new
-
     @candidateurls = Candidateurl.all
     @question_categories = QuestionCategory.all
-
-    @project = Project.find(session[:last_project_id])
+    @project = Project.find(params[:id])
     @question = Question.new
   end
 
@@ -115,12 +111,9 @@ class MainController < ApplicationController
 
   def question_show
     @candidateurl = Candidateurl.new
-    #@project = Project.find(params[:id])
 
     #クエリストリング
     #params
-    #binding.pry
-    #binding.pry
     #session[:last_question_id] = params[:project_id]
     @question = Question.find(params[:id])
     @answerurls = Question.find(params[:id]).answerurls.all
@@ -183,16 +176,16 @@ class MainController < ApplicationController
   def candidateurl_update
     @candidateurl = Candidateurl.find(params[:id])
     if @candidateurl.update(candidateurl_params)
-      redirect_to question_path(session[:last_question_id]) and return
+      redirect_to question_path(params[:id]) and return
     else
-      redirect_to question_path(session[:last_question_id]) and return
+      redirect_to question_path(params[:id]) and return
     end
   end
 
   def candidateurl_destroy
     Candidateurl.find(params[:id]).destroy
     flash[:success] = "deleted"
-    redirect_to question_path(session[:last_question_id]) and return
+    redirect_to question_path(params[:id]) and return
   end
 
   def create_project_category
@@ -207,9 +200,9 @@ class MainController < ApplicationController
   def create_question_category
     @question_category = QuestionCategory.new(question_category_params)
     if @question_category.save
-      redirect_to project_path(session[:last_project_id]) and return
+      redirect_to project_path(params[:project_id]) and return
     else
-      redirect_to project_path(session[:last_project_id]) and return
+      redirect_to project_path(params[:project_id]) and return
     end
   end
 
