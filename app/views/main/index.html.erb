@@ -75,11 +75,13 @@
     <h5>要件一覧</h5>
     <% @projects.each do |project| %>
       <ul style="border:solid 1px black;">
+        <% if project.questions.size >= 1%>
         <li>
           <%= link_to project.title, project_path(project)%>
           <%= project_category_name %>
           <%= " "+User.find(project.user_id).username%>
         </li>
+        <% end %>
 
         <% project.questions.each do |question|%>
           <% answer_count = 0%>
