@@ -57,6 +57,7 @@
       <li class="category-id-<%= project.project_category_id%>question">
         <%= link_to project.title, project_path(project)%>
         <%= project_category_name %>
+        <%= User.find(project.user_id).username %>
         <% if current_user != nil%>
           <% if current_user.id == project.user_id %>
           <%= link_to "編集", project_edit_path(project) %>
@@ -74,8 +75,12 @@
     <h5>要件一覧</h5>
     <% @projects.each do |project| %>
       <ul style="border:solid 1px black;">
-        <%= project.title %>
-        <%= User.find(project.user_id).username%>
+        <li>
+          <%= link_to project.title, project_path(project)%>
+          <%= project_category_name %>
+          <%= " "+User.find(project.user_id).username%>
+        </li>
+
         <% @questions.each do |question|%>
           <% answer_count = 0%>
             <!-- 回答数カウント -->
