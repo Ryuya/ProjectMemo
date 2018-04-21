@@ -82,8 +82,6 @@ class MainController < ApplicationController
       #最後の処理まできたらboolをtrue
     end
     @question.resolution = true
-
-
     if @question.save
       redirect_to root_path and return
     else
@@ -97,8 +95,8 @@ class MainController < ApplicationController
   def project_show
     @question_category = QuestionCategory.new
     @candidateurls = Candidateurl.all
-    @question_categories = QuestionCategory.all
     @project = Project.find(params[:id])
+    @question_categories = @project.question_categories.all
     @question = Question.new
   end
 
@@ -111,7 +109,6 @@ class MainController < ApplicationController
 
   def question_show
     @candidateurl = Candidateurl.new
-
     #クエリストリング
     #params
     #session[:last_question_id] = params[:project_id]
@@ -198,7 +195,10 @@ class MainController < ApplicationController
   end
 
   def create_question_category
-    @question_category = QuestionCategory.new(question_category_params)
+    @project = Project.find(params[:project_id])
+    #@question = Question.find(params[:question_id])
+
+    @question_category = @project.question_categories.new(question_category_params)
     if @question_category.save
       redirect_to project_path(params[:project_id]) and return
     else

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180419094630) do
+ActiveRecord::Schema.define(version: 20180421135554) do
 
   create_table "answerurls", force: :cascade do |t|
     t.string "url"
@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(version: 20180419094630) do
     t.string "category_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "project_id"
+    t.index ["project_id"], name: "index_question_categories_on_project_id"
   end
 
   create_table "question_tags", force: :cascade do |t|

@@ -1,4 +1,8 @@
 <h1>ゼロイチで何か作りたいものがあるとき、要件を定義していって、誰かが参考URLを貼ってくれたりするサイト。ToDoにもなります</h1>
+
+
+
+
 <% if current_user != nil%>
 <%= "名前 "+current_user.username %>
 <%= link_to "ログアウト",destroy_user_session_path, :method => :delete%>
@@ -44,29 +48,29 @@
 <% end %>
 <% project_category_name = ""%>
 <div style="border:solid 2px black;">
-  <div class="">
-  <ul>
-    <h5>みんなのプロジェクト一覧</h5>
-    <% @projects.each do |project|%>
-      <% @project_categories.each do |category| %>
-        <% if project.project_category_id == category.id %>
-          <% project_category_name = category.category_name %>
-        <% else %>
-        <% end %>
+  <h5>みんなのプロジェクト一覧</h5>
+  <div class="row text-left justify-content-sm-center">
+  <% @projects.each do |project|%>
+    <% @project_categories.each do |category| %>
+      <% if project.project_category_id == category.id %>
+        <% project_category_name = category.category_name %>
+      <% else %>
       <% end %>
-      <li class="category-id-<%= project.project_category_id%>question">
-        <%= link_to project.title, project_path(project)%>
-        <%= project_category_name %>
-        <%= User.find(project.user_id).username %>
-        <% if current_user != nil%>
-          <% if current_user.id == project.user_id %>
-          <%= link_to "編集", project_edit_path(project) %>
-          <%= link_to "削除", project ,method: :delete ,data: { confirm: "You sure?" } %>
-          <% end %>
-        <% end %>
-      </li>
     <% end %>
-  </ul>
+      <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto category-id-<%= project.project_category_id%>project">
+        <h3><strong><%= link_to project.title, project_path(project)%></strong></h3>
+        <p>
+          <%= project_category_name %>
+          <%= User.find(project.user_id).username %>
+          <% if current_user != nil%>
+            <% if current_user.id == project.user_id %>
+            <%= link_to "編集", project_edit_path(project) %>
+            <%= link_to "削除", project ,method: :delete ,data: { confirm: "You sure?" } %>
+            <% end %>
+          <% end %>
+        </p>
+      </div>
+  <% end %>
   </div>
 </div>
 <% category_name = "不明"%>
@@ -74,7 +78,7 @@
   <div class="">
     <h5>要件一覧</h5>
     <% @projects.each do |project| %>
-      <ul style="border:solid 1px black;">
+      <ul class="category-id-<%= project.project_category_id %> question project"style="border:solid 1px black;">
         <% if project.questions.size >= 1%>
         <li>
           <%= link_to project.title, project_path(project)%>
@@ -102,7 +106,7 @@
 
           <%# question.resolution = false; %>
           <%# question.save %>
-          <li class="category-id-<%= Project.find(question.project_id).project_category_id %> question <%= (question.resolution == false ? "open--extend" : "close--extend") %>">
+          <li class="category-id-<%= Project.find(question.project_id).project_category_id %> question<%= (question.resolution == false ? "open--extend" : "close--extend") %>">
              <%= link_to question.title, question_path(question)  %>
              <%= "回答数:" + answer_count.to_s+ "," +
              (question.resolution == false ? "未解決" : "解決済み")+
