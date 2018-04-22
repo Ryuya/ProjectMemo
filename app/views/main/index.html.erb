@@ -14,9 +14,8 @@
   <% if @projects.where(:user_id => current_user.id) %>
   <div style="border:solid 2px black;">
     <div class="">
-    <ul>
       <h5>あなたのプロジェクト一覧</h5>
-      <div style="border:solid 2px black;">
+      <div class="project-create-area">
         <p>プロジェクトを作成する</p>
         <%= form_for(@project,:url=>{:controller => "main", :action => "create_project"} ,html: {class: 'project_category_form'}) do |f| %>
           <%= f.collection_select :project_category_id, ProjectCategory.all, :id, :category_name ,:prompt => "全てのカテゴリ"%>
@@ -30,6 +29,7 @@
           <input type="submit" value="送信" />
         <% end %>
       </div>
+      <ul>
       <% @projects.each do |project|%>
         <li class="category-id-<%= project.project_category_id%>question">
           <% if current_user != nil%>
@@ -47,9 +47,9 @@
   <% end %>
 <% end %>
 <% project_category_name = ""%>
-<div style="border:solid 2px black;">
+<div style="">
   <h5>みんなのプロジェクト一覧</h5>
-  <div class="row text-left justify-content-sm-center">
+  <div class="row text-left justify-content-sm-center project_wrapper">
   <% @projects.each do |project|%>
     <% @project_categories.each do |category| %>
       <% if project.project_category_id == category.id %>
@@ -57,7 +57,7 @@
       <% else %>
       <% end %>
     <% end %>
-      <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto category-id-<%= project.project_category_id%>project">
+      <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto category-id-<%= project.project_category_id%> project">
         <h3><strong><%= link_to project.title, project_path(project)%></strong></h3>
         <p>
           <%= project_category_name %>
@@ -78,15 +78,14 @@
   <div class="">
     <h5>要件一覧</h5>
     <% @projects.each do |project| %>
-      <ul class="category-id-<%= project.project_category_id %> question project"style="border:solid 1px black;">
-        <% if project.questions.size >= 1%>
+      <% if project.questions.size >= 1%>
+      <ul class="category-id-<%= project.project_category_id %> question"style="border:solid 1px black;">
         <li>
           <%= link_to project.title, project_path(project)%>
           <%= project_category_name %>
           <%= " "+User.find(project.user_id).username%>
         </li>
-        <% end %>
-
+      <% end %>
         <% project.questions.each do |question|%>
           <% answer_count = 0%>
             <!-- 回答数カウント -->
@@ -119,7 +118,9 @@
             <% end %>
           </li>
         <% end %>
+      <% if project.questions.size >= 1%>
       </ul>
+      <% end %>
     <% end %>
   </div>
 </div>

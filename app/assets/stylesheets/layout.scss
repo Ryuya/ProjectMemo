@@ -354,3 +354,29 @@ body{
     padding: 0;
   }
 }
+
+.project-create-area{
+  margin:20px;
+}
+
+.project_wrapper{
+  box-sizing: border-box;
+
+  border-top: double 3px gray;
+  border-left: double 3px gray;
+  box-shadow:2px 2px 2px 2px rgba(0,0,0,0.4);
+}
+
+.project{
+
+  border-right:double 3px gray;
+  border-bottom:double 3px gray;
+  height:180px;
+  overflow: scroll;
+  box-sizing: border-box;
+  //opacity: 0.5;
+}
+
+.row{
+  margin:0px;
+}
