@@ -255,13 +255,13 @@ body{
 }
 #fog{
   display: none;
-
   background-color:rgba(166,166,166,0.5);
   width:2000px;
   height:2000px;
   position: fixed;
   top:0;
   left:0;
+  z-index: 999;
 }
 
 #fog_memo{
