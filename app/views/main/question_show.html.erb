@@ -14,11 +14,13 @@
         <%#= hidden_field_tag :question_id, @question.id %>
         <%#= hidden_field_tag :question_resolution, @question.resolution %>
         <% if current_user != nil%>
-          <%= form_for(@question,:url=>{:controller => "main", :action => "resolution_update"}, :id => "form-left") do |f| %>
-            <%= hidden_field_tag :resolution_order,""%>
-            <%= hidden_field_tag :question_id, @question.id %>
-            <input class="order" name="order" type="hidden" value="" />
-            <input class="btn btn-primary btn-lg btn-block super_font1  submit_div super_font2" type="submit" value="解決" onclick="resolutionbutton();" />
+          <% if current_user == @question.user_id%>
+            <%= form_for(@question,:url=>{:controller => "main", :action => "resolution_update"}, :id => "form-left") do |f| %>
+              <%= hidden_field_tag :resolution_order,""%>
+              <%= hidden_field_tag :question_id, @question.id %>
+              <input class="order" name="order" type="hidden" value="" />
+              <input class="btn btn-primary btn-lg btn-block super_font1  submit_div super_font2" type="submit" value="解決" onclick="resolutionbutton();" />
+            <% end %>
           <% end %>
         <% end %>
       </div>
