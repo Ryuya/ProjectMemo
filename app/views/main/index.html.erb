@@ -102,8 +102,8 @@
             <% end %>
           <% end %>
 
-          <%# question.resolution = false; %>
-          <%# question.save %>
+          <% question.resolution = false; %>
+          <% question.save %>
           <li class="category-id-<%= Project.find(question.project_id).project_category_id %> question<%= (question.resolution == false ? "open--extend" : "close--extend") %>">
              <%= link_to question.title, question_path(question)  %>
              <%= "回答数:" + answer_count.to_s+ "," +
