@@ -14,7 +14,7 @@
         <%#= hidden_field_tag :question_id, @question.id %>
         <%#= hidden_field_tag :question_resolution, @question.resolution %>
         <% if current_user != nil%>
-          <% if current_user == @question.user_id%>
+          <% if current_user.id == @question.user_id%>
             <%= form_for(@question,:url=>{:controller => "main", :action => "resolution_update"}, :id => "form-left") do |f| %>
               <%= hidden_field_tag :resolution_order,""%>
               <%= hidden_field_tag :question_id, @question.id %>

@@ -12,7 +12,7 @@
 <% end %>
 <% if current_user != nil%>
   <% if @projects.where(:user_id => current_user.id) %>
-  <div style="border:solid 2px black;">
+  <div class="your-project-list">
     <div class="">
       <h5>あなたのプロジェクト一覧</h5>
       <div class="project-create-area">
@@ -74,15 +74,16 @@
   </div>
 </div>
 <% category_name = "不明"%>
-<div style="border:solid 2px black;">
+<div class="Requirement-List">
   <div class="">
     <h5>要件一覧</h5>
     <% @projects.each do |project| %>
       <% if project.questions.size >= 1%>
+    <div class="project-showroom">
       <%= link_to project.title, project_path(project)%>
       <%= project_category_name %>
       <%= " "+User.find(project.user_id).username%>
-      <ul class="category-id-<%= project.project_category_id %> question"style="border:solid 1px black;">
+      <ul class="category-id-<%= project.project_category_id %> question"style="">
 
       <% end %>
         <% project.questions.each do |question|%>
@@ -104,7 +105,7 @@
 
           <%# question.resolution = false; %>
           <%# question.save %>
-          <li class="category-id-<%= Project.find(question.project_id).project_category_id %> question<%= (question.resolution == false ? "open--extend" : "close--extend") %>">
+          <li class="category-id-<%= Project.find(question.project_id).project_category_id %> question <%= (question.resolution == false ? "open--extend" : "close--extend") %>">
              <%= link_to question.title, question_path(question)  %>
              <%= "回答数:" + answer_count.to_s+ "," +
              (question.resolution == false ? "未解決" : "解決済み")+
@@ -119,6 +120,7 @@
         <% end %>
       <% if project.questions.size >= 1%>
       </ul>
+      </div>
       <% end %>
     <% end %>
   </div>
