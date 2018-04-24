@@ -358,9 +358,8 @@ body{
 .your-project-list{
   margin-top:20px;
   margin-bottom:20px;
+  padding:20px;
   box-sizing: border-box;
-  border-top: double 3px gray;
-  border-left: double 3px gray;
   box-shadow:2px 2px 2px 2px rgba(0,0,0,0.4);
 }
 
@@ -370,25 +369,26 @@ body{
 
 .project_wrapper{
   box-sizing: border-box;
-  border-top: double 3px gray;
-  border-left: double 3px gray;
   box-shadow:2px 2px 2px 2px rgba(0,0,0,0.4);
 }
 
 .project{
-
-  border-right:double 3px gray;
-  border-bottom:double 3px gray;
   height:180px;
+  border-right: solid 1px rgba(0,0,0,0.2);
+  border-bottom: solid 1px rgba(0,0,0,0.2);
+
   overflow: scroll;
   box-sizing: border-box;
   //opacity: 0.5;
+  
 }
 
 .project-showroom{
-  border-top: double 20px gray;
-  border-bottom: double 20px gray;
-  padding: 20px;
+  border-top: solid 1px gray;
+    padding: 20px;
+    &:last-child{
+      border-bottom: solid 1px gray;
+    }
 }
 
 .row{
@@ -405,8 +405,6 @@ body{
 .Requirement-List{
   margin-top:20px;
   margin-bottom:20px;
-  box-sizing: border-box;
-  border-top: double 3px gray;
-  border-left: double 3px gray;
-  box-shadow:2px 2px 2px 2px rgba(0,0,0,0.4);
+  padding:20px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.4);
 }
