@@ -7,9 +7,6 @@
 <%= link_to "ログイン",new_user_session_path%>
 <% end %>
 
-<%# if current_user.id == project.user_id %>
-
-<%# end %>
 <% category_name = "不明"%>
 <div style="border:solid 2px black;">
   <div class="">
@@ -24,7 +21,6 @@
       <% end %>
       <%= form_for(@question,:url=>{:controller => "main", :action => "create_question"}) do |f| %>
         <%= f.collection_select :question_category_id, @question_categories, :id, :category_name ,:prompt => "全ての質問"%>
-        <%#= f.collection_select :tag_id, Tag.all, :id, :tagname ,:prompt => "全ての質問"%>
         <%= hidden_field_tag :question_id, @question.id %>
         <%= hidden_field_tag :project_id, @project.id %>
         <%= f.text_area :title , cols: "30", rows: "1",:placeholder => "Title",:class =>"form-control" %>

@@ -1,19 +1,15 @@
 <h1><%= @question.title %>の詳細ページ
 </br>
-  <!-- user_idがまだない問題たちへの対処 -->
   <%= "質問者["+User.find(@question.user_id).username+"]"%>
 </h1>
 <div class="panel panel-default">
   <%= @question.description %>
-  <%#= @qeustion.candidateurl.url %>
 </div>
 <div class="flex">
 
     <div class="box1 col-xs-12 col-sm-6 number_huyo panel panel-default" id="items2">
       <h5>ドラッグ&ドロップで整理する</h5>
       <div class="list left number_huyo">
-        <%#= hidden_field_tag :question_id, @question.id %>
-        <%#= hidden_field_tag :question_resolution, @question.resolution %>
         <% if current_user != nil%>
           <% if current_user.id == @question.user_id%>
             <%= form_for(@question,:url=>{:controller => "main", :action => "resolution_update"}, :id => "form-left") do |f| %>

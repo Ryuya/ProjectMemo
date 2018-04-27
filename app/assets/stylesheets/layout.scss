@@ -380,7 +380,7 @@ body{
   overflow: scroll;
   box-sizing: border-box;
   //opacity: 0.5;
-  
+
 }
 
 .project-showroom{
@@ -407,4 +407,18 @@ body{
   margin-bottom:20px;
   padding:20px;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.4);
+}
+
+
+.flex{
+  margin: 10 auto;
+}
+.candidateurl{
+  display:block;
+  border:solid 1px black;
+  margin-top:20px;
+  margin-left:20px;
+  margin-right:20px;
+  overflow: auto;
+  height: 260px;
 }

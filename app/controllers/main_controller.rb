@@ -79,7 +79,6 @@ class MainController < ApplicationController
       @answerurl.memo = result["memo"].to_s
 
       @answerurl.save
-      #最後の処理まできたらboolをtrue
     end
     @question.resolution = true
     if @question.save
@@ -109,15 +108,9 @@ class MainController < ApplicationController
 
   def question_show
     @candidateurl = Candidateurl.new
-    #クエリストリング
-    #params
-    #session[:last_question_id] = params[:project_id]
     @question = Question.find(params[:id])
     @answerurls = Question.find(params[:id]).answerurls.all
     @candidateurls = Question.find(params[:id]).candidateurls.all
-    #viewからは呼べない
-    #a = Candidateurl.new
-
     if @question.resolution == true
       render "main/close"
     else
@@ -196,7 +189,6 @@ class MainController < ApplicationController
 
   def create_question_category
     @project = Project.find(params[:project_id])
-    #@question = Question.find(params[:question_id])
 
     @question_category = @project.question_categories.new(question_category_params)
     if @question_category.save

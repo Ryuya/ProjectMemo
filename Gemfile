@@ -32,13 +32,16 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'sqlite3', group: [:development, :test]
-gem 'pg', group: :production
+gem 'pg', group: :productio
 
 #会員登録
 gem 'devise'
 
 #URLからタイトルを取得
 gem 'mechanize'
+
+#Googleアナリティクス
+gem 'google-analytics-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

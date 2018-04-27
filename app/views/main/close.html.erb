@@ -1,11 +1,9 @@
 <h1><%= @question.title %>の詳細ページ
 </br>
-  <!-- user_idがまだない問題たちへの対処 -->
   <%= "質問者["+User.find(@question.user_id).username+"]"%>
 </h1>
 <div class="panel panel-default">
   <%= @question.description %>
-  <%#= @qeustion.candidateurl.url %>
 </div>
 <div class="flex">
 
