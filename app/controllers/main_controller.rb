@@ -166,9 +166,9 @@ class MainController < ApplicationController
   def candidateurl_update
     @candidateurl = Candidateurl.find(params[:id])
     if @candidateurl.update(candidateurl_params)
-      redirect_to question_path(params[:id]) and return
+      redirect_to question_path(@candidateurl.question_id) and return
     else
-      redirect_to question_path(params[:id]) and return
+      redirect_to question_path(@candidateurl.question_id) and return
     end
   end
 
