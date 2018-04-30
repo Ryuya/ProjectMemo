@@ -9,10 +9,10 @@ module ApplicationHelper
       keywords: 'URL共有,タスク管理,ゼロイチ,一緒に勉強,プログラミング,プロジェクト TODO',
       canonical: request.original_url,
       separator: '|',
-      icon: [
-        { href: image_url('favicon.ico') },
-        { href: image_url('icon.jpg'), rel: 'apple-touch-icon', sizes: '180x180', type: 'image/jpg' },
-      ],
+      #icon: [
+      #  { href: image_url('favicon.ico') },
+      #  { href: image_url('icon.jpg'), rel: 'apple-touch-icon', sizes: '180x180', type: 'image/jpg' },
+      #],
       og: {
         site_name: 'Bibouroku',
         title: 'ゼロイチ',
