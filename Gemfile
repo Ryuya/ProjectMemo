@@ -37,6 +37,8 @@ gem 'pg', group: :productio
 #会員登録
 gem 'devise'
 
+gem 'meta-tags'
+
 #URLからタイトルを取得
 gem 'mechanize'
 
