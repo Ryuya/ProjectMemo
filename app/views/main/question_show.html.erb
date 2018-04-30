@@ -1,3 +1,7 @@
+
+
+<% set_meta_tags title: @question.title, description: @question.description, og: { title: @question.title, type: 'article'} %>
+
 <h1><%= @question.title %>の詳細ページ
 </br>
   <%= "質問者["+User.find(@question.user_id).username+"]"%>
