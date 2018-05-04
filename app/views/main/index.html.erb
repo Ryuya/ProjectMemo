@@ -87,11 +87,14 @@
       <% end %>
         <% project.questions.each do |question|%>
           <% answer_count = 0%>
+            <!-- 回答数カウント -->
           <% @candidateurls.each do |candidateurl|%>
             <% if question.id == candidateurl.question_id%>
                   <% answer_count += 1 %>
             <% end %>
           <% end %>
+          <% question.resolution = false; %>
+          <% question.save %>
           <li class="category-id-<%= Project.find(question.project_id).project_category_id %> question <%= (question.resolution == false ? "open--extend" : "close--extend") %>">
              <%= link_to question.title, question_path(question)  %>
              <%= "回答数:" + answer_count.to_s+ "," +
@@ -116,6 +119,7 @@
 <script>
 
 $(document).ready(function(){
+  //初期化
   var selected_id;
   selected_id = $('[name="question[question_category_id]"]').val();
   if(selected_id === ''){
@@ -141,6 +145,7 @@ $('select').change(function() {
 <script>
 
 $(document).ready(function(){
+  //初期化
   var selected_id;
   selected_id = $('[name="project[project_category_id]"]').val();
   if(selected_id === ''){
