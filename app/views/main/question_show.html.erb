@@ -228,7 +228,7 @@
         var url = $('#items2').find('.panel').find('.candidateitem').find('.url a').attr('href');
         $("#items2 .panel .candidateitem .url a").each(function(i, elem) {
           //同じURLが存在していたら追加しない処理
-            if(elem.innerText == ui.item.find("a").attr("href")){
+            if(elem.href == ui.item.find("a").attr("href")){
               //HITしたらaddable=false
               addable = false;
             } else {
