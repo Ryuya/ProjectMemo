@@ -30,7 +30,9 @@
 
   <div class="box2 col-xs-12 col-sm-6 panel panel-default">
     <div class="middle">
-        <h5>選定中</h5>
+        <% if current_user.id == @question.user_id %>
+        <h5>左のエリアにドラッグしてください</h5>
+        <% end %>
         <div class="candidateurl number_huyo panel panel-default" id="items1">
             <% @question.candidateurls.each_with_index do |candidateurl,candidateitem_id|%>
               <li class="panel" id="cadidate-li-<%= candidateitem_id %>">
