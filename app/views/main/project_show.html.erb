@@ -1,4 +1,9 @@
-<% set_meta_tags title: @project.title, description: @project.description, og: { title: @project.title, type: 'article'} %>
+<% str = Array.new %>
+<%@project.questions.each do |question| %>
+<% str.push(question.title)%>
+<% end %>
+
+<% set_meta_tags title: @project.title, description: str.join(","), og: { title: @project.title, type: 'article'} %>
 
 <h1><%= @project.title %>のページ</h1>
 <% if current_user != nil%>
