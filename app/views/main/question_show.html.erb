@@ -10,7 +10,6 @@
   <%= @question.description %>
 </div>
 <div class="flex">
-
     <div class="box1 col-xs-12 col-sm-6 number_huyo panel panel-default" id="items2">
       <h5>ドラッグ&ドロップで整理する</h5>
       <div class="list left number_huyo">
@@ -30,9 +29,11 @@
 
   <div class="box2 col-xs-12 col-sm-6 panel panel-default">
     <div class="middle">
+      <% if current_user != nil %>
         <% if current_user.id == @question.user_id %>
         <h5>左のエリアにドラッグしてください</h5>
         <% end %>
+      <% end %>
         <div class="candidateurl number_huyo panel panel-default" id="items1">
             <% @question.candidateurls.each_with_index do |candidateurl,candidateitem_id|%>
               <li class="panel" id="cadidate-li-<%= candidateitem_id %>">
@@ -68,6 +69,7 @@
               </li>
             <% end %>
       </div>
+
       <div id="fog">
         <div id="fog_memo">
           <a href="#" onclick="hideFog();return false;">X</a>

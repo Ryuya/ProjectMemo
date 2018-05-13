@@ -19,23 +19,25 @@
   <div class="">
     <% if current_user != nil%>
 
-    <div style="border:solid 2px black;">
-      <p>何か質問してください</p>
-      <%= form_for(@question_category,:url=>{:controller => "main", :action => "create_question_category"}) do |f| %>
-        <%= f.text_area :category_name , cols: "30", rows: "1",:placeholder => "追加するカテゴリ名" %>
-        <%= hidden_field_tag :project_id, @project.id %>
-        <input type="submit" value="送信" />
-      <% end %>
-      <%= form_for(@question,:url=>{:controller => "main", :action => "create_question"}) do |f| %>
-        <%= f.collection_select :question_category_id, @question_categories, :id, :category_name ,:prompt => "全ての質問"%>
-        <%= hidden_field_tag :question_id, @question.id %>
-        <%= hidden_field_tag :project_id, @project.id %>
-        <%= f.text_area :title , cols: "30", rows: "1",:placeholder => "Title",:class =>"form-control" %>
-        <%= f.text_area :description , cols: "30", rows: "10",:placeholder => "内容",:class =>"form-control"%>
-        <input type="submit" value="送信" />
-      <% end %>
-      <!-- Category 生成-->
-    </div>
+    <% if current_user.id == @project.user_id %>
+      <div style="border:solid 2px black;">
+        <p>何か質問してください</p>
+        <%= form_for(@question_category,:url=>{:controller => "main", :action => "create_question_category"}) do |f| %>
+          <%= f.text_area :category_name , cols: "30", rows: "1",:placeholder => "追加するカテゴリ名" %>
+          <%= hidden_field_tag :project_id, @project.id %>
+          <input type="submit" value="送信" />
+        <% end %>
+        <%= form_for(@question,:url=>{:controller => "main", :action => "create_question"}) do |f| %>
+          <%= f.collection_select :question_category_id, @question_categories, :id, :category_name ,:prompt => "全ての質問"%>
+          <%= hidden_field_tag :question_id, @question.id %>
+          <%= hidden_field_tag :project_id, @project.id %>
+          <%= f.text_area :title , cols: "30", rows: "1",:placeholder => "Title",:class =>"form-control" %>
+          <%= f.text_area :description , cols: "30", rows: "10",:placeholder => "内容",:class =>"form-control"%>
+          <input type="submit" value="送信" />
+        <% end %>
+        <!-- Category 生成-->
+      </div>
+    <% end %>
   <% end %>
   <ul>
     <h5><%= @project.title%> の　要件一覧</h5>
