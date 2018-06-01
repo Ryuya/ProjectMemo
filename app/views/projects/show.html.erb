@@ -26,7 +26,7 @@
           <%= hidden_field_tag :project_id, @project.id %>
           <input type="submit" value="送信" />
         <% end %>
-        <%= form_for(@question,:url=>{:controller => "main", :action => "create_question"}) do |f| %>
+        <%= form_for(@question) do |f| %>
           <%= f.collection_select :question_category_id, @question_categories, :id, :category_name ,:prompt => "全ての質問"%>
           <%= hidden_field_tag :question_id, @question.id %>
           <%= hidden_field_tag :project_id, @project.id %>
@@ -67,7 +67,7 @@
          "," + category_name.to_s %>
         <% if current_user != nil%>
           <% if current_user.id == question.user_id %>
-          <%= link_to "編集", question_edit_path(question) %>
+          <%= link_to "編集", edit_question_path(question) %>
           <%= link_to "削除", question ,method: :delete ,data: { confirm: "You sure?" } %>
           <% end %>
         <% end %>

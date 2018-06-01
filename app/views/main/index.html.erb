@@ -11,13 +11,13 @@
 <%= link_to "ログイン",new_user_session_path%>
 <% end %>
 <% if current_user != nil%>
-  <% if @projects.where(:user_id => current_user.id) %>
+  <% if current_user.projects.present? %>
   <div class="your-project-list">
     <div class="">
       <h5>あなたのプロジェクト一覧</h5>
       <div class="project-create-area">
         <p>プロジェクトを作成する</p>
-        <%= form_for(@project,:url=>{:controller => "main", :action => "create_project"} ,html: {class: 'project_category_form'}) do |f| %>
+        <%= form_for(@project,html: {class: 'project_category_form'}) do |f| %>
           <%= f.collection_select :project_category_id, ProjectCategory.all, :id, :category_name ,:prompt => "全てのカテゴリ"%>
           <%#= f.collection_select :tag_id, Tag.all, :id, :tagname ,:prompt => "全ての質問"%>
           <%= f.text_area :title , cols: "30", rows: "1",:placeholder => "Title",:class =>"form-control" %>
@@ -30,12 +30,12 @@
         <% end %>
       </div>
       <ul>
-      <% @projects.each do |project|%>
+      <% current_user.projects.each do |project|%>
         <li class="category-id-<%= project.project_category_id%>question">
           <% if current_user != nil%>
             <% if current_user.id == project.user_id %>
               <%= link_to project.title, project_path(project)%>
-              <%= link_to "編集", project_edit_path(project) %>
+              <%= link_to "編集", edit_project_path(project) %>
               <%= link_to "削除", project ,method: :delete ,data: { confirm: "You sure?" } %>
             <% end %>
           <% end %>
@@ -50,8 +50,8 @@
 <div style="">
   <h5>みんなのプロジェクト一覧</h5>
   <div class="row text-left justify-content-sm-center project_wrapper">
-  <% @projects.each do |project|%>
-    <% @project_categories.each do |category| %>
+  <% current_user.projects.each do |project|%>
+    <% ProjectCategory.all.each do |category| %>
       <% if project.project_category_id == category.id %>
         <% project_category_name = category.category_name %>
       <% else %>
@@ -64,7 +64,7 @@
           <%= User.find(project.user_id).username %>
           <% if current_user != nil%>
             <% if current_user.id == project.user_id %>
-            <%= link_to "編集", project_edit_path(project) %>
+            <%= link_to "編集", edit_project_path(project) %>
             <%= link_to "削除", project ,method: :delete ,data: { confirm: "You sure?" } %>
             <% end %>
           <% end %>
@@ -77,7 +77,7 @@
 <div class="Requirement-List">
   <div class="">
     <h5>みんなの要件一覧</h5>
-    <% @projects.each do |project| %>
+    <% Project.all.each do |project| %>
       <% if project.questions.size >= 1%>
     <div class="project-showroom category-id-<%= project.project_category_id %> question">
       <%= link_to project.title, project_path(project)%>
@@ -88,7 +88,7 @@
         <% project.questions.each do |question|%>
           <% answer_count = 0%>
             <!-- 回答数カウント -->
-          <% @candidateurls.each do |candidateurl|%>
+          <% question.candidateurls.each do |candidateurl|%>
             <% if question.id == candidateurl.question_id%>
                   <% answer_count += 1 %>
             <% end %>
@@ -102,7 +102,7 @@
              "," + QuestionCategory.find(question.question_category_id).category_name %>
             <% if current_user != nil%>
               <% if current_user.id == question.user_id %>
-              <%= link_to "編集", question_edit_path(question) %>
+              <%= link_to "編集", edit_question_path(question) %>
               <%= link_to "削除", question ,method: :delete ,data: { confirm: "You sure?" } %>
               <% end %>
             <% end %>

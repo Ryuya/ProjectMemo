@@ -1,5 +1,5 @@
 <div class="question_edit container">
-  <%= form_for @question, url: question_edit_path, method: :post do |f| %>
+  <%= form_for @question, method: :patch do |f| %>
     <div class="field">
       <%= f.collection_select :question_category_id, QuestionCategory.all, :id, :category_name ,:prompt => "全ての質問"%>
     </div>
@@ -10,7 +10,7 @@
     <div class="field">
       <%= f.label :description, "内容" %>
       <%= f.text_area :description, :size=>"100",cols: "30", rows: "10",placeholder: "内容を入力して下さい。" %>
-    </div >
+    </div>
     <div class="button_wrap">
       <input type="submit" value="保存する" class="button">
     </div>

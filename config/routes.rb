@@ -4,37 +4,51 @@ Rails.application.routes.draw do
   root :to => 'main#index'
   get 'main/top'
   get 'main/index', as: :top
-  get 'main/index/project/:id', to: 'main#project_show', as: :project
-  get 'main/index/question/:id', to:  'main#question_show', as: :question
 
-
-  delete 'main/index/project/:id', to:  'main#project_destroy'
-  delete 'main/index/question/:id', to:  'main#question_destroy'
-  delete 'main/candidateurl/:id', to: 'main#candidateurl_destroy'
-
-  post 'main/create_project'
   post 'main/create_project_category'
   post 'main/create_question_category'
-  post 'main/create_question'
-  post 'main/create_candidateurl'
 
 
-  get 'main/project_edit/:id', to: 'main#project_edit', as: :project_edit
-  post 'main/project_edit/:id', to: 'main#project_update'
+  #Project
+  # get 'projects', to: 'projects#index', as: :projects
+  #formを作る時にはnew
+  # get 'projects/new', to: 'projects#new', as: :new_project
+  # post 'projects', to: 'projects#create'
+  # get 'projects/:id', to: 'projects#show', as: :project
+  # delete 'projects/:id', to:  'projects#destroy'
+  # get 'projects/:id/edit', to: 'projects#edit', as: :edit_project
+  # patch 'projects/:id', to: 'projects#update'
 
-  get 'main/question_edit/:id', to: 'main#question_edit', as: :question_edit
-  post 'main/question_edit/:id', to: 'main#question_update'
+  #レストフル restful rails
+  #リソースフル  rails
+  resources :projects ,except: [:index,:new]
 
+  #Question
+  # post 'questions', to: 'questions#create',as: :questions
+  # get 'questions/:id', to: 'questions#show', as: :question
+  # get 'questions/:id/edit', to: 'questions#edit', as: :edit_question
+  # patch 'questions/:id', to: 'questions#update'
+  # delete 'questions/:id', to:  'questions#destroy'
+  resources :questions ,except: [:index,:new] do
+    #単数
+    member do
+      patch 'resolute'
+    end
+    #集合体
+    # collection do
+    #   get 'abc'
+    # end
+  end
 
-
-  get 'main/candidateurl/:id', to:  'main#candidateurl_show', as: :candidateurl
-  get 'main/candidateurl_edit/:id',to: 'main#candidateurl_edit',as: :candidateurl_edit
-  patch 'main/candidateurl_edit/:id',to: 'main#candidateurl_update',as: :candidateurl_update
-
-
+  # get 'main/candidateurl/:id', to:  'main#candidateurl_show', as: :candidateurl
+  # get 'main/candidateurl_edit/:id',to: 'main#candidateurl_edit',as: :candidateurl_edit
+  # patch 'main/candidateurl_edit/:id',to: 'main#candidateurl_update',as: :candidateurl_update
+  # delete 'main/candidateurl/:id', to: 'main#candidateurl_destroy'
+  # post 'main/create_candidateurl'
+  resources :candidateurls ,except: [:index,:new]
 
   #既にあるモデルをいじる場合はpostではなくpatchになる
-  patch 'main/resolution_update'
+  #patch 'main/resolution_update/:question_id', to: 'main#resolution_update', as: :resolute_question
 
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

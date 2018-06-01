@@ -15,7 +15,7 @@
       <div class="list left number_huyo">
         <% if current_user != nil%>
           <% if current_user.id == @question.user_id%>
-            <%= form_for(@question,:url=>{:controller => "main", :action => "resolution_update"}, :id => "form-left") do |f| %>
+            <%= form_for(@question,url: resolute_question_path(@question), :id => "form-left") do |f| %>
               <%= hidden_field_tag :resolution_order,""%>
               <%= hidden_field_tag :question_id, @question.id %>
               <input class="order" name="order" type="hidden" value="" />
@@ -61,7 +61,7 @@
                         <%= link_to "削除", candidateurl ,method: :delete ,data: { confirm: "You sure?" } %>
                       </div>
                       <div class="hensyu">
-                        <%= link_to "編集", candidateurl_edit_path(candidateurl) %>
+                        <%= link_to "編集", edit_candidateurl_path(candidateurl) %>
                       </div>
                     <% end %>
                   <% end %>
@@ -79,7 +79,7 @@
       </div>
       <% if current_user != nil%>
       <div class="submit_div">
-        <%= form_for(@candidateurl,:url=>{:controller => "main", :action => "create_candidateurl"}, html: {class: 'form-horizontal'}) do |f| %>
+        <%= form_for(@candidateurl, html: {class: 'form-horizontal'}) do |f| %>
         <div class="form-row">
             <div class="col-sm-12">
               <%= f.text_area :url , cols: "30", rows: "1",:placeholder => "URL" ,:class => "form-control"%>
@@ -109,35 +109,6 @@
     window.onload = function() {
 
     }
-
-    // function getTitle(url,callback){
-    //     var xhr=new XMLHttpRequest();
-    //     xhr.onload = function() {
-    //         var title=this.responseXML.title||"no title"
-    //         callback(url,title)
-    //     }
-    //     xhr.open("GET", url ,true);
-    //     xhr.responseType="document";
-    //     xhr.send();
-    // }
-    //
-    // $(".url a").each(function(i, elem) {
-    //   var str;
-    //   var url = $(elem).attr("href");
-    //   getTitle(url, function(url, title) {
-    //       $(elem).text(title);
-    //   });
-    // });
-
-  //  $(".url a").text(getTitle($(".url a").attr("href")));
-
-    // var checkUrl = $(".url a").attr("href");
-    //
-
-    //
-    // getTitle(checkUrl, function(url, title) {
-    //     console.log(title);
-    // });
 
     $(function(){
       $('.memo a').click(function(){
@@ -251,7 +222,8 @@
         }
         //動的に生成されたaにもclickListnerを付与する
         $('.memo a').on('click', showFog);
-        $(this).sortable("cancel");
+        //コピー禁止（なぜ1個だけコピーできるようになると言うと別のスクリプトを書いている）
+        return false;
       },
       stop: function(event,ui){
 

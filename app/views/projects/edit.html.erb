@@ -1,5 +1,5 @@
 <div class="project_edit container">
-  <%= form_for @project, url: project_edit_path, method: :post do |f| %>
+  <%= form_for @project, url: project_path, method: :patch do |f| %>
     <div class="field">
       <%= f.collection_select :project_category_id, ProjectCategory.all, :id, :category_name ,:prompt => "全ての質問"%>
     </div>
