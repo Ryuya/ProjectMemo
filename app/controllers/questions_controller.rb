@@ -2,13 +2,17 @@ class QuestionsController < ApplicationController
 # 質問編集
   def create
     @project = Project.find(params[:project_id]);
-    @question = @project.questions.new(question_params)
+    @question = Question.new(question_params)
     @question.user_id = current_user.id
+    @question.project_id = @project.id
     @question.resolution = false;
     if @question.save
+      flash[:success] = "質問を追加しました"
       redirect_to project_path(params[:project_id]) and return
     else
-      redirect_to project_path(params[:project_id]) and return
+      @question_category = QuestionCategory.new
+      flash.now[:danger] = "質問を追加できませんでした"
+      render "projects/show" and return
     end
   end
 
@@ -18,9 +22,9 @@ class QuestionsController < ApplicationController
     @answerurls = Question.find(params[:id]).answerurls.all
     @candidateurls = Question.find(params[:id]).candidateurls.all
     if @question.resolution == true
-      render "main/close"
+      render :close
     else
-      render "questions/show"
+      render :show
     end
   end
 
@@ -32,18 +36,21 @@ class QuestionsController < ApplicationController
   def update
     @question = Question.find(params[:id])
     if @question.update(question_params)
+      flash[:success] = "質問を編集しました"
       redirect_to root_path and return
     else
-      redirect_to question_path(params[:question_id]) and return
+      flash.now[:danger] = "質問の編集に失敗しました"
+      render :edit and return
     end
   end
 
   # 投稿を削除
   def destroy
     Question.find(params[:id]).destroy
-    flash[:success] = "User deleted"
+    flash[:success] = "質問を削除しました"
     redirect_to root_path
   end
+  
   def abc 
 
   end

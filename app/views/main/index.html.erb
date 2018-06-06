@@ -11,33 +11,34 @@
 <%= link_to "ログイン",new_user_session_path%>
 <% end %>
 <% if current_user != nil%>
-  <% if current_user.projects.present? %>
   <div class="your-project-list">
     <div class="">
       <h5>あなたのプロジェクト一覧</h5>
       <div class="project-create-area">
         <p>プロジェクトを作成する</p>
         <%= form_for(@project,html: {class: 'project_category_form'}) do |f| %>
+          <%= render "shared/error_messages" , object: f.object %>
           <%= f.collection_select :project_category_id, ProjectCategory.all, :id, :category_name ,:prompt => "全てのカテゴリ"%>
           <%#= f.collection_select :tag_id, Tag.all, :id, :tagname ,:prompt => "全ての質問"%>
           <%= f.text_area :title , cols: "30", rows: "1",:placeholder => "Title",:class =>"form-control" %>
           <input type="submit" value="送信" />
         <% end %>
         <!-- Category 生成-->
-        <%= form_for(@project_category,:url=>{:controller => "main", :action => "create_project_category"}) do |f| %>
+        <%= form_for(@project_category) do |f| %>
+          <%= render "shared/error_messages", object: f.object %>
+
           <%= f.text_area :category_name , cols: "30", rows: "1",:placeholder => "追加するカテゴリ名" %>
           <input type="submit" value="送信" />
         <% end %>
       </div>
+      <% if current_user.projects.present? %>
       <ul>
       <% current_user.projects.each do |project|%>
         <li class="category-id-<%= project.project_category_id%>question">
-          <% if current_user != nil%>
-            <% if current_user.id == project.user_id %>
-              <%= link_to project.title, project_path(project)%>
-              <%= link_to "編集", edit_project_path(project) %>
-              <%= link_to "削除", project ,method: :delete ,data: { confirm: "You sure?" } %>
-            <% end %>
+          <% if current_user.id == project.user_id %>
+            <%= link_to project.title, project_path(project)%>
+            <%= link_to "編集", edit_project_path(project) %>
+            <%= link_to "削除", project ,method: :delete ,data: { confirm: "You sure?" } %>
           <% end %>
         </li>
       <% end %>

@@ -21,7 +21,6 @@ class ProjectsController < ApplicationController
     @question_category = QuestionCategory.new
     @candidateurls = Candidateurl.all
     @project = Project.find(params[:id])
-    @question_categories = @project.question_categories.all
     @question = Question.new
   end
 
@@ -31,15 +30,17 @@ class ProjectsController < ApplicationController
       flash[:success] = "プロジェクトを更新しました"
       redirect_to edit_project_path and return
     else
-      flash[:danger] = "プロジェクトの更新に失敗しました"
+      flash.now[:danger] = "プロジェクトの更新に失敗しました"
       render :edit and return
     end
   end
 
   # 投稿を削除
   def destroy
-    Project.find(params[:id]).destroy
-    flash[:success] = "Project deleted"
+    @project = Project.find(params[:id])
+    @project.destroy
+    flash[:success] = "#{@project.title}を削除しました"
+
     redirect_to root_path
   end
 
@@ -48,7 +49,4 @@ class ProjectsController < ApplicationController
   def project_params
     params.require(:project).permit(:title,:project_category_id,:user_id);
   end
-
-
-
 end

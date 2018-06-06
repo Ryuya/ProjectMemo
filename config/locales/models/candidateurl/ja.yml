@@ -1,0 +1,10 @@
+ja:
+  activerecord:
+    models:
+      candidateurl: 投稿URL
+    attributes:
+      candidateurl:
+        title: タイトル
+        url: URL
+        memo: メモ
+        

@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    models:
+      project: プロジェクト
+    attributes:
+      project:
+        title: タイトル
+        project_category_id: プロジェクトカテゴリ
+        

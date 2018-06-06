@@ -1,14 +1,8 @@
 Rails.application.routes.draw do
-  get 'main/index'
-
-  root :to => 'main#index'
-  get 'main/top'
-  get 'main/index', as: :top
-
-  post 'main/create_project_category'
-  post 'main/create_question_category'
-
-
+  root to: 'main#index'
+  #root :to => "main#index"は
+  #root to: "main#index"に書き直せる
+  
   #Project
   # get 'projects', to: 'projects#index', as: :projects
   #formを作る時にはnew
@@ -29,6 +23,8 @@ Rails.application.routes.draw do
   # get 'questions/:id/edit', to: 'questions#edit', as: :edit_question
   # patch 'questions/:id', to: 'questions#update'
   # delete 'questions/:id', to:  'questions#destroy'
+  
+  # TODO projectsにネストしたリソースに変更予定
   resources :questions ,except: [:index,:new] do
     #単数
     member do
@@ -46,6 +42,10 @@ Rails.application.routes.draw do
   # delete 'main/candidateurl/:id', to: 'main#candidateurl_destroy'
   # post 'main/create_candidateurl'
   resources :candidateurls ,except: [:index,:new]
+  
+  resources :project_categories ,only: [:create]
+  
+  resources :question_categories ,only: [:create]
 
   #既にあるモデルをいじる場合はpostではなくpatchになる
   #patch 'main/resolution_update/:question_id', to: 'main#resolution_update', as: :resolute_question

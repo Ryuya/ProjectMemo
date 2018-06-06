@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    models:
+      project_category: プロジェクトカテゴリ
+    attributes:
+      project_category:
+        category_name: カテゴリ名
+        

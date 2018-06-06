@@ -1,8 +1,16 @@
 <div class="">
   <%= form_for(@candidateurl) do |f| %>
-    <%= f.text_area :url , cols: "30", rows: "1",:placeholder => "URL"%>
-    <%= f.text_area :memo , maxlength: "10000",cols: "30", rows: "5",:placeholder => "メモ"%>
-    <%= hidden_field_tag :question_id, @question.id %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="form-group ">
+      <%= f.text_field :title ,size: "80",:placeholder => "タイトル"%>
+    </div>
+    <div class="form-group ">
+      <%= f.text_field :url , size: "80",:placeholder => "URL"%>
+    </div>
+    <div class="form-group ">
+      <%= f.text_area :memo ,cols: "80", rows: "5",:placeholder => "メモ"%>
+    </div>
+    <%= hidden_field_tag :question_id %>
     <input class="btn-primary super_font1" type="submit" value="更新" />
   <% end %>
 </div>

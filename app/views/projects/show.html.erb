@@ -21,13 +21,15 @@
     <% if current_user.id == @project.user_id %>
       <div style="border:solid 2px black;">
         <p>何か質問してください</p>
-        <%= form_for(@question_category,:url=>{:controller => "main", :action => "create_question_category"}) do |f| %>
+        <%= form_for(@question_category) do |f| %>
+          <%= render "shared/error_messages" , object: f.object %>
           <%= f.text_area :category_name , cols: "30", rows: "1",:placeholder => "追加するカテゴリ名" %>
           <%= hidden_field_tag :project_id, @project.id %>
           <input type="submit" value="送信" />
         <% end %>
         <%= form_for(@question) do |f| %>
-          <%= f.collection_select :question_category_id, @question_categories, :id, :category_name ,:prompt => "全ての質問"%>
+          <%= render "shared/error_messages" , object: f.object %>
+          <%= f.collection_select :question_category_id, @project.question_categories, :id, :category_name ,:prompt => "全ての質問"%>
           <%= hidden_field_tag :question_id, @question.id %>
           <%= hidden_field_tag :project_id, @project.id %>
           <%= f.text_area :title , cols: "30", rows: "1",:placeholder => "Title",:class =>"form-control" %>
@@ -44,12 +46,8 @@
       <% answer_count = 0%>
 
         <!-- 回答数カウント -->
-      <% @candidateurls.each do |candidateurl|%>
-        <% if question.id == candidateurl.question_id%>
-              <% answer_count += 1 %>
-        <% end %>
-      <% end %>
-
+      <% answer_count = question.candidateurls.count %>
+      
       <% if @question_categories != nil%>
         <% @question_categories.each do |category| %>
           <% if question.question_category_id == category.id %>
