@@ -77,13 +77,13 @@
 <% category_name = "不明"%>
 <div class="Requirement-List">
   <div class="">
-    <h5>みんなの要件一覧</h5>
+    <h5>みんなの質問一覧</h5>
     <% Project.all.each do |project| %>
       <% if project.questions.size >= 1%>
     <div class="project-showroom category-id-<%= project.project_category_id %> question">
       <%= link_to project.title, project_path(project)%>
-      <%= ProjectCategory.find(project.project_category_id).category_name %>
-      <%= " "+User.find(project.user_id).username%>
+      <%= project.project_category.category_name %>
+      <%= " "+project.user.username%>
       <ul class="category-id-<%= project.project_category_id %> question"style="">
       <% end %>
         <% project.questions.each do |question|%>
@@ -94,13 +94,19 @@
                   <% answer_count += 1 %>
             <% end %>
           <% end %>
-          <%# question.resolution = false; %>
-          <%# question.save %>
+          
           <li class="category-id-<%= Project.find(question.project_id).project_category_id %> question <%= (question.resolution == false ? "open--extend" : "close--extend") %>">
-             <%= link_to question.title, question_path(question)  %>
-             <%= "回答数:" + answer_count.to_s+ "," +
-             (question.resolution == false ? "未解決" : "解決済み")+
-             "," + QuestionCategory.find(question.question_category_id).category_name %>
+              <% if question.resolution == true %>
+                <%= link_to question.title, close_question_path(question)  %>
+                <%= "回答数:" + answer_count.to_s+ ",解決済み"+
+                  "," + question.question_category.category_name %>
+              <% else %>
+                <%= link_to question.title, question_path(question)  %>
+                <%= "回答数:" + answer_count.to_s+ ",未解決"+
+                  "," + question.question_category.category_name %>
+              <% end %>
+              
+              
             <% if current_user != nil%>
               <% if current_user.id == question.user_id %>
               <%= link_to "編集", edit_question_path(question) %>

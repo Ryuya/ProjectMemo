@@ -1,0 +1,10 @@
+ja:
+  activerecord:
+    models:
+      question: 質問
+    attributes:
+      question:
+        question_category_id: 質問カテゴリ名
+        title: 質問のタイトル
+        description: 内容
+        

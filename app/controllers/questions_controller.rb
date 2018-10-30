@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!,except: [:close]
 # 質問編集
   def create
     @project = Project.find(params[:project_id]);
@@ -21,13 +22,14 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @answerurls = Question.find(params[:id]).answerurls.all
     @candidateurls = Question.find(params[:id]).candidateurls.all
-    if @question.resolution == true
-      render :close
-    else
-      render :show
-    end
   end
-
+  def close
+    @candidateurl = Candidateurl.new
+    @question = Question.find(params[:id])
+    @answerurls = Question.find(params[:id]).answerurls.all
+    @candidateurls = Question.find(params[:id]).candidateurls.all
+    
+  end
   def edit
     @question = Question.find(params[:id])
     @user = User.find(current_user.id)

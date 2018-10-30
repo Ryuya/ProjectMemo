@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     #単数
     member do
       patch 'resolute'
+      get 'close'
     end
     #集合体
     # collection do
@@ -50,6 +51,14 @@ Rails.application.routes.draw do
   #既にあるモデルをいじる場合はpostではなくpatchになる
   #patch 'main/resolution_update/:question_id', to: 'main#resolution_update', as: :resolute_question
 
-  devise_for :users
+  devise_for :users ,skip: [:registrations] 
+  devise_scope :user do
+    get 'users/sign_up' ,to: 'users/registrations#new',as: :registration
+    post 'users/sign_up' , to: 'users/registrations#create'
+    get 'users/edit',to: 'users/registrations#edit',as: :profile_edit
+    patch 'users/edit',to: 'users/registrations#update'
+    put 'users/edit',to: 'users/registrations#update'
+    get 'users/profile/:username', to: 'users/registrations#profile'
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

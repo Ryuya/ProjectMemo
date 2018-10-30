@@ -42,6 +42,7 @@
       </div>
       <div class="submit_div">
         <%= form_for(@candidateurl) do |f| %>
+          <%= render "shared/error_messages" , object: f.object %>
           <%= f.text_area :url , cols: "30", rows: "1",:placeholder => "URL"%>
           <%= f.text_area :memo , maxlength: "10000",cols: "30", rows: "5",:placeholder => "メモ"%>
           <%= hidden_field_tag :question_id, @question.id %>

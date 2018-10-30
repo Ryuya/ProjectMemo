@@ -59,10 +59,15 @@
       <li class="category-id-<%= question.question_category_id %>
          question
          <%= (question.resolution == false ? "open--extend" : "close--extend") %>">
-         <%= link_to question.title, question_path(question) %>
-         <%= "回答数:" + answer_count.to_s+ "," +
-         (question.resolution == false ? "未解決" : "解決済み")+
-         "," + category_name.to_s %>
+         <% if question.resolution == true %>
+                <%= link_to question.title, close_question_path(question)  %>
+                <%= "回答数:" + answer_count.to_s+ ",解決済み"+
+                  "," + question.question_category.category_name %>
+              <% else %>
+                <%= link_to question.title, question_path(question)  %>
+                <%= "回答数:" + answer_count.to_s+ ",未解決"+
+                  "," + question.question_category.category_name %>
+              <% end %>
         <% if current_user != nil%>
           <% if current_user.id == question.user_id %>
           <%= link_to "編集", edit_question_path(question) %>

@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    models:
+      question_category: 質問カテゴリ
+    attributes:
+      question_category:
+        category_name: 質問カテゴリ名
+        
+        

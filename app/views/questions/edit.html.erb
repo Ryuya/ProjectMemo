@@ -1,7 +1,10 @@
 <div class="question_edit container">
   <%= form_for @question, method: :patch do |f| %>
+    <%= render "shared/error_messages" , object: f.object %>
     <div class="field">
+      
       <%= f.collection_select :question_category_id, QuestionCategory.all, :id, :category_name ,:prompt => "全ての質問"%>
+      
     </div>
     <div class="field">
       <%= f.label :title, "タイトル" %>

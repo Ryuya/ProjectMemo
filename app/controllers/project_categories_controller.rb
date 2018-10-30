@@ -1,4 +1,5 @@
 class ProjectCategoriesController < ApplicationController
+  before_action :authenticate_user!
   def create
     @project_category = ProjectCategory.new(project_category_params)
     if @project_category.save

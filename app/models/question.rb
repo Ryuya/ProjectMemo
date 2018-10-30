@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   belongs_to :user
   belongs_to :project
+  belongs_to :question_category
   has_many :candidateurls ,dependent: :destroy# class_name: 'Candidateurl'#:optional => true
   has_many :answerurls ,dependent: :destroy
   
